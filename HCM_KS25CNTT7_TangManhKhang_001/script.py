@@ -40,7 +40,9 @@ def display_list(my_list: list):
         "Phân loại",
     )
 
+    print(f"{'-' * len(title)}")
     print(f"{"Danh sách đặt phòng".upper():^147}")
+    print(f"{'-' * len(title)}")
     print(title)
     print(f"{'-' * len(title)}")
     for room in my_list:
