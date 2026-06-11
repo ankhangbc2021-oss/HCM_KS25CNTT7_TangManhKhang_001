@@ -181,8 +181,58 @@ def delete_room(my_list: list):
         print("Không tìm thấy")
 
 
+def search_room(my_list: list):
+    """Tìm kiếm theo mã và tên phòng"""
+
+    if not my_list:
+        print("Danh sách hiện đang rỗng!")
+        return
+
+    search_id = get_data_input("Nhập mã hoặc tên phòng để tìm: ")
+    room_list = [
+        room
+        for room in my_list
+        if search_id.lower() in room.get("id").lower()
+        or search_id.lower() in room.get("name").lower()
+    ]
+
+    if not room_list:
+        print("Không tìm thấy phòng nào!")
+    else:
+        display_list(room_list)
+
+
 def classify_density(my_list: list):
     """Phân loại mật độ"""
+    if not my_list:
+        print("Danh sách hiện đang rỗng!")
+        return
+
+    full = 0
+    long = 0
+    nor = 0
+    short = 0
+    for room in my_list:
+        status = room.get("status")
+
+        if status == "Quá tải (Cần xem xét lại)":
+            full += 1
+        elif status == "Dài":
+            long += 1
+        elif status == "Tiêu chuẩn":
+            nor += 1
+        else:
+            short += 1
+
+    print("Đã phân loại xong")
+    print("Tổng lượt quá tải là:", full)
+    print("Tổng lượt dài là:", long)
+    print("Tổng lượt tiêu chuẩn là:", nor)
+    print("Tổng lượt ngắn là:", short)
+
+
+def classify_status_auto(my_list: list):
+    """Phân loại khung giờ tự động"""
     if not my_list:
         print("Danh sách hiện đang rỗng!")
         return
@@ -195,8 +245,8 @@ def classify_density(my_list: list):
         room["total_time"] = total_time
 
         room["status"] = class_room(total_time)
-    
-    print("Đã phân loại xong")
+
+    print("Đã phân khung giờ xong")
 
 
 def main():
@@ -238,16 +288,13 @@ def main():
                 delete_room(booking_room)
 
             case "5":
-                print()
+                search_room(booking_room)
 
             case "6":
                 classify_density(booking_room)
 
             case "7":
-                print()
-
-            case "7":
-                print()
+                classify_status_auto(booking_room)
 
             case "8":
                 print("Bạn đã thoát")
