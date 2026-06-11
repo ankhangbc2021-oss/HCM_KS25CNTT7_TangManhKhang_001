@@ -110,6 +110,11 @@ def add_room(my_list: list):
     """Thêm booking"""
 
     id = get_data_input("Nhập mã BK để thêm: ")
+    check_id = [room for room in my_list if id.upper() == room.get("id").upper()]
+    if check_id:
+        print(f"Mã [{id.upper()}] này đã có rồi")
+        return
+
     name = get_data_input("Nhập tên phòng đặt: ")
     name_order = get_data_input("Nhập tên người đặt: ")
     time_start = get_data_input("Nhập giờ bắt đầu: ", "time")
